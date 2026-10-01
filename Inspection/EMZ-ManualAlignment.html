@@ -1,0 +1,961 @@
+<title>Manual Align: three welds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+Thai:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+    /* White and blue theme on the Designership UI shape. Single light look by choice.
+   Layout: one screen, no page scroll on desktop. Left = animation, right = narration, anchors and step list (step list scrolls in its pane).
+   Below 960px wide the two panes stack and the page scrolls. */
+    :root {
+        --bg: #f5f9ff;
+        --surface: #ffffff;
+        --surface-2: #eef4fc;
+        --fg: #0f2540;
+        --muted: #4a6280;
+        --faint: #5d7491;
+        --line: #dce6f2;
+        --line-strong: #b4c6dc;
+        --brand: #1e6fd9;
+        --brand-press: #155bb5;
+        --accent: #1a63c4;
+        --heading: #0f4c9c;
+        --hl: #e8f1fd;
+        --focus: #1e6fd9;
+        --on-brand: #ffffff;
+        --shadow-sm: 0 1px 2px rgba(15, 37, 64, .06);
+        --shadow-brand: 0 6px 18px rgba(30, 111, 217, .28);
+        --weld: #e08a00;
+        --blob: #a9b8ca;
+        --g0: #1e6fd9;
+        --g1: #0f8a7e;
+        --g2: #d9480f;
+        --g3: #7048e8;
+        --f-body: Inter, "Noto Sans Thai", system-ui, -apple-system, "Segoe UI", sans-serif;
+        --f-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        --r-sm: 6px;
+        --r-md: 10px;
+        --r-lg: 14px;
+        --r-xl: 20px;
+        color-scheme: light;
+    }
+
+    html,
+    body {
+        height: 100%
+    }
+
+    body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--f-body);
+        font-size: 14px;
+        line-height: 1.6
+    }
+
+    .app {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        padding-inline: 16px;
+        padding-block: 14px;
+        max-width: 1600px;
+        margin: 0 auto;
+        box-sizing: border-box
+    }
+
+    header {
+        display: flex;
+        align-items: baseline;
+        gap: 8px 16px;
+        flex-wrap: wrap
+    }
+
+    .eyebrow {
+        font-family: var(--f-mono);
+        font-size: 12px;
+        color: var(--accent)
+    }
+
+    h1 {
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 1.2;
+        letter-spacing: -.01em;
+        margin: 0
+    }
+
+    .lede {
+        color: var(--muted);
+        font-size: 13px;
+        margin: 0
+    }
+
+    .main {
+        flex: 1;
+        min-height: 0;
+        display: grid;
+        grid-template-columns: minmax(0, 1.45fr) minmax(320px, 1fr);
+        gap: 12px
+    }
+
+    .pane {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--r-xl);
+        box-shadow: var(--shadow-sm);
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-height: 0;
+        min-width: 0
+    }
+
+    .svgbox {
+        flex: 1;
+        min-height: 200px;
+        display: flex
+    }
+
+    .svgbox svg {
+        width: 100%;
+        height: 100%;
+        display: block
+    }
+
+    .cap {
+        font-size: 12px;
+        color: var(--muted);
+        margin: 0
+    }
+
+    .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px 16px;
+        font-size: 12px;
+        color: var(--muted)
+    }
+
+    .legend span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px
+    }
+
+    .sw {
+        width: 11px;
+        height: 11px;
+        border-radius: 2px;
+        display: inline-block
+    }
+
+    .ctl {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center
+    }
+
+    .btn {
+        padding: 6px 14px;
+        border: 1px solid var(--line-strong);
+        border-radius: var(--r-lg);
+        background: var(--surface);
+        color: var(--fg);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 20px;
+        cursor: pointer;
+        box-shadow: var(--shadow-sm)
+    }
+
+    .btn:hover {
+        background: var(--surface-2)
+    }
+
+    .btn.primary {
+        background: var(--brand);
+        border-color: var(--brand);
+        color: var(--on-brand);
+        box-shadow: var(--shadow-brand)
+    }
+
+    .btn.primary:hover,
+    .btn.primary:active {
+        background: var(--brand-press);
+        border-color: var(--brand-press)
+    }
+
+    .btn.ghost {
+        box-shadow: none;
+        border-color: transparent;
+        color: var(--accent);
+        padding: 4px 8px;
+        font-size: 13px
+    }
+
+    .btn.ghost:hover {
+        background: var(--hl)
+    }
+
+    .btn:focus-visible,
+    input:focus-visible,
+    .sh:focus-visible,
+    summary:focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 2px
+    }
+
+    .chk {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px
+    }
+
+    .chk input {
+        accent-color: var(--brand);
+        width: 15px;
+        height: 15px
+    }
+
+    .order {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        align-items: center;
+        font-size: 12px;
+        color: var(--muted)
+    }
+
+    .pill {
+        padding: 1px 10px;
+        border-radius: 9999px;
+        background: var(--hl);
+        color: var(--heading);
+        font-weight: 600
+    }
+
+    .pill.done {
+        background: var(--brand);
+        color: var(--on-brand)
+    }
+
+    .sep {
+        width: 1px;
+        height: 20px;
+        background: var(--line);
+        margin-inline: 4px
+    }
+
+    .sig {
+        font-family: var(--f-mono);
+        font-size: 11.5px;
+        color: var(--muted);
+        overflow-x: auto;
+        white-space: nowrap
+    }
+
+    .ph {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--heading);
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center
+    }
+
+    .nar {
+        font-size: 13px;
+        line-height: 1.6;
+        background: var(--surface-2);
+        border-radius: var(--r-md);
+        padding: 10px 12px;
+        flex: none;
+        max-height: 28%;
+        overflow: auto
+    }
+
+    .tw {
+        overflow: auto;
+        flex: none;
+        max-height: 24%;
+        border: 1px solid var(--line);
+        border-radius: var(--r-md)
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        font-size: 12.5px;
+        font-variant-numeric: tabular-nums
+    }
+
+    th,
+    td {
+        text-align: left;
+        padding: 4px 8px;
+        border-bottom: 1px solid var(--line);
+        white-space: nowrap
+    }
+
+    th {
+        font-weight: 600;
+        color: var(--muted);
+        position: sticky;
+        top: 0;
+        background: var(--surface)
+    }
+
+    .hlrow td {
+        background: var(--hl)
+    }
+
+    .steps {
+        list-style: none;
+        margin: 0;
+        padding: 0 4px 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        flex: 1;
+        min-height: 0;
+        overflow: auto
+    }
+
+    .step {
+        border: 1px solid var(--line);
+        border-radius: var(--r-lg);
+        background: var(--surface)
+    }
+
+    .step.on {
+        border-color: var(--brand);
+        background: var(--hl)
+    }
+
+    .sh {
+        display: grid;
+        grid-template-columns: 1.9em 1fr;
+        gap: 10px;
+        align-items: center;
+        width: 100%;
+        padding: 8px 12px;
+        background: none;
+        border: 0;
+        cursor: pointer;
+        text-align: left;
+        color: inherit;
+        font: inherit
+    }
+
+    .num {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--accent);
+        background: var(--hl);
+        border-radius: 9999px;
+        width: 1.9em;
+        height: 1.9em;
+        display: grid;
+        place-items: center;
+        font-variant-numeric: tabular-nums
+    }
+
+    .step.on .num {
+        background: var(--brand);
+        color: var(--on-brand)
+    }
+
+    .st {
+        display: flex;
+        flex-direction: column;
+        min-width: 0
+    }
+
+    .st b {
+        font-weight: 600;
+        font-size: 13.5px;
+        line-height: 20px
+    }
+
+    .sum {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 18px
+    }
+
+    details.dt {
+        padding: 0 12px 0 calc(12px + 1.9em + 10px)
+    }
+
+    details.dt summary {
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--accent);
+        padding: 0 0 8px;
+        list-style: none;
+        width: fit-content
+    }
+
+    details.dt summary::-webkit-details-marker {
+        display: none
+    }
+
+    details.dt summary::before {
+        content: "▸ ";
+    }
+
+    details.dt[open] summary::before {
+        content: "▾ ";
+    }
+
+    details.dt[open] summary {
+        padding-bottom: 4px
+    }
+
+    .body {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding-bottom: 10px;
+        font-size: 12.5px
+    }
+
+    .body p {
+        margin: 0
+    }
+
+    .body ul {
+        margin: 0;
+        padding-left: 1.2em;
+        display: flex;
+        flex-direction: column;
+        gap: 2px
+    }
+
+    code {
+        font-family: var(--f-mono);
+        font-size: 11.5px;
+        background: var(--surface-2);
+        color: var(--heading);
+        padding: 0 5px;
+        border-radius: var(--r-sm)
+    }
+
+    .calc {
+        font-family: var(--f-mono);
+        font-size: 11.5px;
+        color: var(--muted);
+        overflow-x: auto;
+        white-space: pre
+    }
+
+    .mv {
+        transition: transform 1s ease
+    }
+
+    .ft {
+        transition: opacity .5s
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+        .mv,
+        .ft {
+            transition: none
+        }
+    }
+
+    @media (max-width:960px) {
+
+        html,
+        body {
+            height: auto
+        }
+
+        .app {
+            height: auto
+        }
+
+        .main {
+            grid-template-columns: 1fr
+        }
+
+        .svgbox {
+            flex: none;
+            min-height: 0
+        }
+
+        .svgbox svg {
+            height: auto
+        }
+
+        .nar,
+        .tw {
+            max-height: none
+        }
+
+        .steps {
+            overflow: visible
+        }
+    }
+</style>
+
+<div class="app">
+    <header>
+        <span class="eyebrow">EMZ Manual Align · 3 weld</span>
+        <h1>Manual Align กับ 3 weld</h1>
+        <p class="lede">align ตามลำดับ weld 1 → weld 3 → weld 2 · ตัวเลขเป็นค่าสมมติ (1 record ≈ 2 mm, tolerance ±300 mm
+            ≈ 150 record, signature เป็น hash จำลอง)</p>
+    </header>
+
+    <div class="main">
+        <section class="pane" aria-label="Animation">
+            <div class="ctl">
+                <button class="btn primary" id="bPlay" type="button">Play</button>
+                <button class="btn" id="bStep" type="button">Step</button>
+                <button class="btn" id="bReset" type="button">Reset</button>
+                <span id="sNo" class="cap"></span>
+                <span class="sep"></span>
+                <div class="order" aria-label="ลำดับการ align">ลำดับ: <span class="pill" id="o0">weld 1</span>→<span
+                        class="pill" id="o2">weld 3</span>→<span class="pill" id="o1">weld 2</span></div>
+            </div>
+            <div class="ctl" style="gap:14px">
+                <label class="chk"><input type="checkbox" id="cMA" checked>Enable Manual Align</label>
+                <label class="chk"><input type="checkbox" id="cABD">Align By Distance</label>
+                <label class="chk"><input type="checkbox" id="cLPU">Live Preview Update</label>
+            </div>
+            <div class="svgbox">
+                <svg viewBox="0 0 680 385" preserveAspectRatio="xMidYMid meet" role="img"
+                    aria-label="Zoom C-scan, ShiftTable chart และ preview strip">
+                    <defs>
+                        <clipPath id="cz">
+                            <rect x="70" y="22" width="580" height="154" />
+                        </clipPath>
+                        <clipPath id="cp">
+                            <rect x="70" y="302" width="580" height="40" />
+                        </clipPath>
+                    </defs>
+                    <text x="70" y="14" font-size="12" fill="var(--muted)" font-family="var(--f-body)">Zoom C-scan (x =
+                        display record)</text>
+                    <g id="zb"></g>
+                    <g id="zr"></g>
+                    <g id="rg"></g>
+                    <text x="70" y="208" font-size="12" fill="var(--muted)" font-family="var(--f-body)">ShiftTable:
+                        shift ของแต่ละ group</text>
+                    <g id="ch"></g>
+                    <text x="70" y="296" font-size="12" fill="var(--muted)" font-family="var(--f-body)" id="pvT">Preview
+                        (full run)</text>
+                    <g id="pv"></g>
+                    <g id="ax"></g>
+                </svg>
+            </div>
+            <div class="legend">
+                <span><i class="sw" style="background:var(--weld)"></i>weld</span>
+                <span><i class="sw" style="background:var(--blob);border-radius:50%"></i>ข้อมูลอื่นในแถบ</span>
+                <span><i class="sw" style="border:2px solid var(--fg);border-radius:50%"></i>ตำแหน่งที่คลิก</span>
+                <span><i class="sw" style="border-left:2px dashed var(--muted);border-radius:0"></i>ref ของ weld</span>
+            </div>
+            <div id="sig" class="sig"></div>
+        </section>
+
+        <section class="pane" aria-label="รายละเอียด">
+            <p class="ph">ขั้นปัจจุบัน</p>
+            <div id="nar" class="nar"></div>
+            <p class="ph">Anchors</p>
+            <div class="tw">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>eventId</th>
+                            <th>Weld</th>
+                            <th>Group</th>
+                            <th>offsetMm</th>
+                            <th>clickRecord</th>
+                            <th>ref</th>
+                            <th>shift</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbd"></tbody>
+                </table>
+            </div>
+            <p class="ph">ทีละขั้น <button class="btn ghost" id="bAll" type="button"
+                    aria-pressed="false">แสดงรายละเอียดทั้งหมด</button></p>
+            <ol class="steps" id="steps">
+                <li class="step" data-s="0">
+                    <button class="sh" type="button" data-s="0"><span class="num">0</span><span class="st"><b>สภาพก่อน
+                                align</b><span class="sum">แต่ละ group เหลื่อมไม่เท่ากัน
+                                และเหลื่อมไม่เป็นเส้นตรงตามระยะ</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <p>การเหลื่อมของ G0 / G1 / G2 / G3:</p>
+                            <span class="calc">weld 1 (true 80): +30 / +70 / +110 / 0
+                                weld 2 (true 340): +20 / +90 / +130 / 0
+                                weld 3 (true 540): +40 / +60 / +100 / 0</span>
+                            <p>weld 2 ไม่ได้อยู่บนเส้นตรงระหว่าง weld 1 กับ weld 3 จึงต้องคลิกเพิ่ม</p>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="1">
+                    <button class="sh" type="button" data-s="1"><span class="num">1</span><span class="st"><b>weld 1 ·
+                                คลิก G0</b><span class="sum">สร้าง eventId 0, ref = 110, shift =
+                                0</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ยังไม่มี anchor <code>clickRecord</code> = 110 → event ใหม่ eventId 0</li>
+                            </ul><span class="calc">G0: (110, +0)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="2">
+                    <button class="sh" type="button" data-s="2"><span class="num">2</span><span class="st"><b>weld 1 ·
+                                คลิก G1</b><span class="sum">clickRecord 150 → shift +40</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ห่าง G0 (110) 40 rec ≈ 80 mm → eventId 0, ref 110 → +40</li>
+                            </ul><span class="calc">G1: (110, +40)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="3">
+                    <button class="sh" type="button" data-s="3"><span class="num">3</span><span class="st"><b>weld 1 ·
+                                คลิก G2</b><span class="sum">clickRecord 190 → shift +80</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ห่าง G1 (150) 40 rec → eventId 0, ref 110 → +80</li>
+                            </ul><span class="calc">G2: (110, +80)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="4">
+                    <button class="sh" type="button" data-s="4"><span class="num">4</span><span class="st"><b>weld 1 ·
+                                คลิก G3</b><span class="sum">ref เปลี่ยนเป็น 80 shift
+                                คงที่ทั้งไฟล์</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li><code>clickRecord</code> = 80 → ref ของ eventId 0 เปลี่ยนจาก 110 เป็น 80</li>
+                                <li>shift: G0 +30, G1 +70, G2 +110, G3 0</li>
+                                <li>แต่ละ group มีจุดเดียว shift จึงคงที่ทั้งไฟล์ weld 2 และ 3
+                                    เลื่อนด้วยค่าเดียวกันแต่ไม่ตรง</li>
+                            </ul>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="5">
+                    <button class="sh" type="button" data-s="5"><span class="num">5</span><span class="st"><b>weld 3 ·
+                                คลิก G0</b><span class="sum">550 + 30 = 580 → eventId 1, G0 มี 2
+                                จุด</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>G0 ถูกเลื่อน +30 weld 3 ของ G0 จึงแสดงที่ 550 →
+                                    <code>EmzManualAlignRawRecord</code>: 550 + 30 = 580</li>
+                                <li>คลิกที่ใกล้สุด (190) ห่าง 390 rec ≈ 780 mm → event ใหม่ eventId 1</li>
+                                <li>ระหว่าง 80 ถึง 580 shift ของ G0 ลดจาก +30 เป็น 0 แบบเส้นตรง</li>
+                            </ul><span class="calc">G0: (80, +30), (580, +0)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="6">
+                    <button class="sh" type="button" data-s="6"><span class="num">6</span><span class="st"><b>weld 3 ·
+                                คลิก G1</b><span class="sum">530 + 70 = 600 → shift +20</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ห่าง G0 ของ weld 3 (580) 20 rec → eventId 1, ref 580 → +20</li>
+                            </ul><span class="calc">G1: (80, +70), (580, +20)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="7">
+                    <button class="sh" type="button" data-s="7"><span class="num">7</span><span class="st"><b>weld 3 ·
+                                คลิก G2</b><span class="sum">530 + 110 = 640 → shift +60</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ห่าง G1 (600) 40 rec → eventId 1, ref 580 → +60</li>
+                            </ul><span class="calc">G2: (80, +110), (580, +60)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="8">
+                    <button class="sh" type="button" data-s="8"><span class="num">8</span><span class="st"><b>weld 3 ·
+                                คลิก G3</b><span class="sum">ref เปลี่ยนเป็น 540 weld 1, 3 ตรง แต่ weld 2
+                                ยังเหลื่อม</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ref ของ eventId 1 เปลี่ยนจาก 580 เป็น 540 → shift ที่ weld 3: +40, +60, +100, 0</li>
+                                <li>weld 2 ได้ shift จาก interpolation (G0 ≈ +35, G1 ≈ +64, G2 ≈ +104) แต่เหลื่อมจริง
+                                    +20, +90, +130 จึงยังไม่ตรง: G0 ≈ 325, G1 ≈ 366, G2 ≈ 366, G3 340</li>
+                            </ul><span class="calc">G0: (80,+30) (540,+40) G1: (80,+70) (540,+60)
+                                G2: (80,+110) (540,+100) G3: (80,+0) (540,+0)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="9">
+                    <button class="sh" type="button" data-s="9"><span class="num">9</span><span class="st"><b>weld 2 ·
+                                คลิก G0</b><span class="sum">325 + 35 (interpolate) = 360 → eventId 2
+                                แทรกจุดกลาง</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>shift ที่ column 325 มาจาก interpolation: 30 + round(245 / 460 × 10) = 35 →
+                                    <code>clickRecord</code> = 360 ถ้าไม่บวกจะได้ 325 ซึ่งผิด</li>
+                                <li>ห่าง weld 1 (190) 170 rec และ weld 3 (540) 180 rec เกิน 150 ทั้งคู่ → eventId 2</li>
+                                <li>ShiftTable เรียงจุดตาม ref (<code>std::sort</code>) จุดของ weld 2 จึงแทรกตรงกลาง
+                                </li>
+                            </ul><span class="calc">G0: (80, +30), (360, +0), (540, +40)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="10">
+                    <button class="sh" type="button" data-s="10"><span class="num">10</span><span class="st"><b>weld 2 ·
+                                คลิก G1</b><span class="sum">366 + 64 = 430 → eventId 2, shift
+                                +70</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ใกล้ G0 ของ weld 2 (360) 70 rec มากกว่า weld 3 (540) 110 rec → eventId 2, ref 360 →
+                                    +70</li>
+                            </ul><span class="calc">G1: (80, +70), (360, +70), (540, +60)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="11">
+                    <button class="sh" type="button" data-s="11"><span class="num">11</span><span class="st"><b>weld 2 ·
+                                คลิก G2</b><span class="sum">366 + 104 = 470 → eventId 2, shift
+                                +110</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ใกล้ G1 ของ weld 2 (430) 40 rec มากกว่า weld 3 (540) 70 rec → eventId 2, +110</li>
+                            </ul><span class="calc">G2: (80, +110), (360, +110), (540, +100)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="12">
+                    <button class="sh" type="button" data-s="12"><span class="num">12</span><span class="st"><b>weld 2 ·
+                                คลิก G3</b><span class="sum">ref เปลี่ยนเป็น 340 ภาพตรงครบทั้ง 3
+                                weld</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ref ของ eventId 2 เปลี่ยนจาก 360 เป็น 340 → shift ที่ weld 2: +20, +90, +130, 0</li>
+                                <li>จุดของ weld 1 และ 3 ไม่เปลี่ยน</li>
+                            </ul><span class="calc">G0: (80,+30) (340,+20) (540,+40)
+                                G1: (80,+70) (340,+90) (540,+60)
+                                G2: (80,+110) (340,+130) (540,+100)</span>
+                        </div>
+                    </details>
+                </li>
+                <li class="step" data-s="13">
+                    <button class="sh" type="button" data-s="13"><span class="num">13</span><span
+                            class="st"><b>สรุป</b><span
+                                class="sum">ลำดับการคลิกไม่เปลี่ยนผลสุดท้าย</span></span></button>
+                    <details class="dt">
+                        <summary>รายละเอียด</summary>
+                        <div class="body">
+                            <ul>
+                                <li>ผลสุดท้ายเหมือนคลิก 1 → 2 → 3 เพราะ <code>EmzManualAlignShiftTable::Build</code>
+                                    เรียงจุดตาม ref</li>
+                                <li>ลำดับมีผลแค่ภาพระหว่างทาง และ <code>eventId</code> ที่นับตามลำดับคลิก</li>
+                                <li>ตอนคลิก weld กลาง ต้องบวก shift ที่ interpolate อยู่
+                                    (<code>EmzManualAlignRawRecord</code>)</li>
+                                <li>ป้าย W1..Wn ในหน้า Property ของโปรแกรมจริงอาจเรียงต่างจากนี้ ยังไม่ได้ตรวจกับโค้ด
+                                </li>
+                            </ul>
+                        </div>
+                    </details>
+                </li>
+            </ol>
+        </section>
+    </div>
+</div>
+
+<script>
+    (function () {
+        const $ = id => document.getElementById(id);
+        const SC = 0.9, X = r => 70 + r * SC, NS = "http://www.w3.org/2000/svg";
+        const GC = ['var(--g0)', 'var(--g1)', 'var(--g2)', 'var(--g3)'], OFF = [0, 43, 86, 129], Y = [22, 62, 102, 142];
+        const CB = 280, CS = 0.5;
+        const TW = [80, 340, 540], S = [[30, 70, 110, 0], [20, 90, 130, 0], [40, 60, 100, 0]], TOL = 150;
+        function drift(g, t) {
+            if (t <= TW[0]) return S[0][g]; if (t >= TW[2]) return S[2][g];
+            const k = t < TW[1] ? 0 : 1; return S[k][g] + (t - TW[k]) / (TW[k + 1] - TW[k]) * (S[k + 1][g] - S[k][g]);
+        }
+        const rawOf = (g, t) => Math.round(t + drift(g, t));
+        const BL = [[30, 9], [190, 26], [260, 12], [430, 22], [480, 8]];
+        function el(t, a, p) {const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); p.appendChild(e); return e;}
+        const setX = (e, x) => e.style.transform = `translateX(${x}px)`;
+        const zb = $('zb'), pv = $('pv'), ch = $('ch'), zr = $('zr'), rg = $('rg'), ax = $('ax');
+        const ZF = [], PF = [];
+        for (let g = 0; g < 4; g++) {
+            el('rect', {x: 70, y: Y[g], width: 580, height: 34, rx: 6, fill: 'var(--surface-2)', stroke: 'var(--line)', 'stroke-width': 0.75}, zb);
+            el('text', {x: 20, y: Y[g] + 15, 'font-size': 13, 'font-weight': 600, fill: GC[g], 'font-family': 'var(--f-body)'}, zb).textContent = 'G' + g;
+            el('text', {x: 20, y: Y[g] + 29, 'font-size': 11, fill: 'var(--faint)', 'font-family': 'var(--f-body)'}, zb).textContent = OFF[g] + ' mm';
+            const c = el('g', {'clip-path': 'url(#cz)'}, zb);
+            BL.forEach(([b, o]) => ZF.push({g, raw: rawOf(g, b), el: el('circle', {cx: 0, cy: Y[g] + o, r: 4, fill: 'var(--blob)', class: 'mv'}, c)}));
+            TW.forEach(w => ZF.push({g, raw: rawOf(g, w), el: el('rect', {x: -2, y: Y[g] + 2, width: 5, height: 30, rx: 1, fill: 'var(--weld)', class: 'mv'}, c)}));
+            el('rect', {x: 70, y: 302 + g * 10, width: 580, height: 9, fill: 'var(--surface-2)'}, pv);
+            const pc = el('g', {'clip-path': 'url(#cp)'}, pv);
+            BL.forEach(([b]) => PF.push({g, raw: rawOf(g, b), el: el('circle', {cx: 0, cy: 302 + g * 10 + 4.5, r: 2, fill: 'var(--blob)', class: 'mv'}, pc)}));
+            TW.forEach(w => PF.push({g, raw: rawOf(g, w), el: el('rect', {x: -1.5, y: 302 + g * 10, width: 3, height: 9, fill: 'var(--weld)', class: 'mv'}, pc)}));
+        }
+        el('line', {x1: 70, y1: CB, x2: 650, y2: CB, stroke: 'var(--line-strong)', 'stroke-width': 0.75}, ch);
+        [0, 50, 100].forEach(s => {el('text', {x: 64, y: CB - s * CS + 4, 'font-size': 11, fill: 'var(--faint)', 'text-anchor': 'end', 'font-family': 'var(--f-body)'}, ch).textContent = s;});
+        GC.forEach((c, g) => {el('text', {x: 470 + g * 45, y: 208, 'font-size': 12, 'font-weight': 600, fill: c, 'font-family': 'var(--f-body)'}, ch).textContent = 'G' + g;});
+        const chL = el('g', {}, ch);
+        for (let r = 0; r <= 600; r += 100) {
+            el('line', {x1: X(r), y1: 346, x2: X(r), y2: 352, stroke: 'var(--line-strong)', 'stroke-width': 0.75}, ax);
+            el('text', {x: X(r), y: 366, 'font-size': 11, fill: 'var(--faint)', 'text-anchor': 'middle', 'font-family': 'var(--f-body)'}, ax).textContent = r;
+        }
+        const ring = el('circle', {cx: 0, cy: 0, r: 12, fill: 'none', stroke: 'var(--fg)', 'stroke-width': 2, opacity: 0, class: 'ft'}, rg);
+
+        function build(A) {
+            const ref = {}; A.forEach(a => ref[a.ev] = ref[a.ev] === undefined ? a.click : Math.min(ref[a.ev], a.click));
+            const T = {}; A.forEach(a => {(T[a.g] = T[a.g] || []).push([ref[a.ev], a.click - ref[a.ev]]);});
+            for (const g in T) T[g].sort((p, q) => p[0] - q[0]);
+            return {T, ref};
+        }
+        function shRaw(T, g, d, rnd) {
+            const p = T[g]; if (!p || !p.length) return null;
+            if (d <= p[0][0]) return p[0][1]; if (d >= p[p.length - 1][0]) return p[p.length - 1][1];
+            let h = 1; while (h < p.length && p[h][0] < d) h++; const a = p[h - 1], b = p[h]; if (b[0] === a[0]) return b[1];
+            const v = (d - a[0]) / (b[0] - a[0]) * (b[1] - a[1]); return a[1] + (rnd ? Math.round(v) : v);
+        }
+        const sh = (T, g, d) => shRaw(T, g, d, true);
+        function disp(T, g, raw, ap) {if (!ap || !T[g]) return raw; let d = raw; for (let i = 0; i < 80; i++)d = raw - shRaw(T, g, d, false); return d;}
+        function fnv(a) {let h = 0x811c9dc5; a.forEach(v => {h ^= (v >>> 0); h = Math.imul(h, 0x01000193) >>> 0;}); return h;}
+        const hex = h => '0x' + h.toString(16).padStart(8, '0');
+
+        let A = [], step = 0, timer = null, last = null, prevZ = null, prevP = null, showAll = false;
+        const SCRIPT = [[0, 0], [1, 0], [2, 0], [3, 0], [0, 2], [1, 2], [2, 2], [3, 2], [0, 1], [1, 1], [2, 1], [3, 1]], MAX = SCRIPT.length + 1;
+        const ma = () => $('cMA').checked, abd = () => $('cABD').checked, lpu = () => $('cLPU').checked;
+        const apZ = () => ma() && !abd(), apP = () => apZ() && lpu();
+        const say = L => {$('nar').innerHTML = L.map(l => `<div>${l}</div>`).join('');};
+        const items = [...document.querySelectorAll('.step')], list = $('steps');
+        function mark() {
+            items.forEach(li => {const on = +li.dataset.s === step; li.classList.toggle('on', on); li.querySelector('details').open = showAll || on;});
+            [0, 1, 2].forEach(w => {const n = A.filter(a => a.w === w).length; $('o' + w).classList.toggle('done', n === 4);});
+            $('sNo').textContent = 'ขั้น ' + step + ' / ' + MAX;
+            const cur = items[step];
+            if (cur && list.scrollHeight > list.clientHeight) {
+                const top = cur.offsetTop - list.offsetTop, bottom = top + cur.offsetHeight;
+                if (top < list.scrollTop || bottom > list.scrollTop + list.clientHeight) list.scrollTo({top: Math.max(0, top - 8), behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+            }
+        }
+
+        function render() {
+            const {T, ref} = build(A), az = apZ(), ap = apP();
+            ZF.forEach(f => setX(f.el, X(disp(T, f.g, f.raw, az))));
+            PF.forEach(f => setX(f.el, X(disp(T, f.g, f.raw, ap))));
+            zr.innerHTML = '';
+            if (az) for (const ev in ref) {
+                const x = X(ref[ev]), w = A.find(a => a.ev === +ev).w;
+                el('line', {x1: x, y1: 18, x2: x, y2: 180, stroke: 'var(--muted)', 'stroke-width': 1, 'stroke-dasharray': '4 4'}, zr);
+                el('text', {x: x + 4, y: 190, 'font-size': 11, fill: 'var(--muted)', 'font-family': 'var(--f-body)'}, zr).textContent = 'weld ' + (w + 1) + ' ref ' + ref[ev];
+            }
+            chL.innerHTML = '';
+            for (let g = 0; g < 4; g++) {
+                if (!T[g]) continue; const pts = []; for (let d = 0; d <= 644; d += 4)pts.push(X(d) + ',' + (CB - sh(T, g, d) * CS));
+                el('polyline', {points: pts.join(' '), fill: 'none', stroke: GC[g], 'stroke-width': 1.75, opacity: az ? 1 : 0.35}, chL);
+                T[g].forEach(p => el('circle', {cx: X(p[0]), cy: CB - p[1] * CS, r: 3.5, fill: GC[g]}, chL));
+            }
+            $('pvT').textContent = 'Preview (full run) — ' + (ap ? 'shifted' : 'unshifted');
+            const ah = fnv([A.length].concat(...A.map(a => [a.ev, a.g, a.click])));
+            const zs = fnv(az ? [7, ah] : [7]), ps = fnv(ap ? [7, ah] : [7]);
+            const st = (s, p) => p === null ? '' : (s !== p ? '  → rebuild (cache miss)' : '  → reuse cache');
+            $('sig').textContent = `zoom sig ${hex(zs)}${st(zs, prevZ)}   |   preview sig ${hex(ps)}${st(ps, prevP)}`;
+            prevZ = zs; prevP = ps;
+            const rows = [...A].sort((p, q) => ref[p.ev] - ref[q.ev] || p.g - q.g);
+            $('tbd').innerHTML = rows.map(a => `<tr class="${a === last ? 'hlrow' : ''}"><td>${a.ev}</td><td>weld ${a.w + 1}</td><td style="color:${GC[a.g]};font-weight:600">G${a.g}</td><td>${OFF[a.g]}</td><td>${a.click}</td><td>${ref[a.ev]}</td><td>+${a.click - ref[a.ev]}</td></tr>`).join('') || '<tr><td colspan="7" style="color:var(--faint)">ยังไม่มี anchor</td></tr>';
+            mark();
+        }
+        function intro() {say(['สมมติ pipe มี 3 weld อยู่ที่ true record 80, 340 และ 540 แต่ odometer ใช้ไม่ได้ แต่ละ group เหลื่อมไม่เท่ากัน และเหลื่อมไม่เป็นเส้นตรงตามระยะ (G3 ตรงอยู่แล้ว)', 'กด Step หรือ Play เพื่อคลิกทีละ group ระบบ commit ทุกคลิก (mouse-up) และ Zoom rebuild ทันที คลิกขั้นในรายการเพื่อกระโดดไปขั้นนั้น']);}
+
+        function prepClick(g, w) {
+            const {T, ref: refOld} = build(A), az = apZ();
+            const raw = rawOf(g, TW[w]), colRec = Math.round(disp(T, g, raw, az));
+            const s = (az && T[g]) ? sh(T, g, colRec) : 0, click = colRec + s;
+            const interp = T[g] && T[g].length > 1 && colRec > T[g][0][0] && colRec < T[g][T[g].length - 1][0];
+            let near = null; A.forEach(a => {const d = Math.abs(a.click - click); if (!near || d < near.d) near = {a, d};});
+            const mx = A.reduce((m, a) => Math.max(m, a.ev), -1);
+            const ev = !near ? 0 : (near.d <= TOL ? near.a.ev : mx + 1);
+            const L = [];
+            L.push(`weld ${w + 1} · คลิก G${g}: column record = ${colRec}` + (s ? `, บวก shift ปัจจุบันของ G${g} ${s}${interp ? ' (มาจาก interpolation)' : ''} → clickRecord = ${click} (EmzManualAlignRawRecord)` : ` → clickRecord = ${click}`));
+            if (!near) L.push('ยังไม่มี anchor → สร้าง event ใหม่ eventId 0');
+            else if (near.d <= TOL) L.push(`คลิกที่ใกล้สุดคือ G${near.a.g} ของ weld ${near.a.w + 1} (${near.a.click}) ห่าง ${near.d} rec ≈ ${near.d * 2} mm ≤ 300 mm → eventId ${ev}`);
+            else L.push(`คลิกที่ใกล้สุดห่าง ${near.d} rec ≈ ${near.d * 2} mm > 300 mm → สร้าง event ใหม่ eventId ${ev}`);
+            const commit = () => {
+                const i = A.findIndex(a => a.ev === ev && a.g === g), r = {ev, g, w, click};
+                if (i >= 0) A[i] = r; else A.push(r); last = r;
+                const {T: T2, ref} = build(A), o = refOld[ev], n = ref[ev];
+                if (o !== undefined && n < o) L.push(`ref ของ eventId ${ev} (weld ${w + 1}) เปลี่ยนจาก ${o} เป็น ${n} → shift ของทุก group ใน weld นี้ถูกคำนวณใหม่`);
+                else L.push(`ref ของ eventId ${ev} (weld ${w + 1}) = ${n} → shift ของ G${g} = ${click} − ${n} = +${click - n}`);
+                L.push(`จุดของ G${g} ใน ShiftTable (เรียงตาม ref): ` + T2[g].map(p => `(${p[0]}, +${p[1]})`).join(', '));
+                if (!az) L.push('Manual Align ปิดอยู่: anchor ถูกเก็บ แต่ Zoom ยังไม่เลื่อน');
+                return L;
+            };
+            return {colRec, commit};
+        }
+        const SUMMARY = ['ครบ 12 คลิก: ทุก group มี 3 จุด ภาพตรงทั้ง 3 weld และข้อมูลระหว่าง weld', 'ผลสุดท้ายเหมือนคลิก 1 → 2 → 3 เพราะ ShiftTable เรียงจุดตาม ref ลำดับการคลิกเปลี่ยนแค่ภาพระหว่างทางและ eventId', 'ลองสลับ checkbox เพื่อดู Zoom, Preview และ signature'];
+        const blocked = () => {say(['Align By Distance เปิดอยู่ → CanUseManualAlign() = false คลิกไม่ถูกเก็บ ปิด Align By Distance ก่อน']); stop();};
+
+        function next() {
+            if (step >= MAX) {stop(); return;}
+            if (step < SCRIPT.length) {
+                if (abd()) {blocked(); return;}
+                const [g, w] = SCRIPT[step], c = prepClick(g, w);
+                ring.setAttribute('cx', X(c.colRec)); ring.setAttribute('cy', Y[g] + 17); ring.setAttribute('opacity', 1);
+                setTimeout(() => ring.setAttribute('opacity', 0), 1400);
+                step++; $('sNo').textContent = 'ขั้น ' + step + ' / ' + MAX;
+                setTimeout(() => {say(c.commit()); render();}, 700);
+            } else {step++; say(SUMMARY); render();}
+        }
+        function stop() {clearInterval(timer); timer = null; $('bPlay').textContent = 'Play';}
+        function reset() {stop(); A = []; step = 0; last = null; prevZ = prevP = null; render(); intro();}
+        function jump(n) {
+            stop();
+            if (abd() && n > 0) {blocked(); return;}
+            A = []; last = null; step = 0; let L = null;
+            for (let i = 0; i < Math.min(n, SCRIPT.length); i++) {const [g, w] = SCRIPT[i]; L = prepClick(g, w).commit(); step++;}
+            if (n > SCRIPT.length) {step = MAX; L = SUMMARY;}
+            render(); if (n === 0) intro(); else say(L);
+        }
+        $('bPlay').onclick = () => {if (timer) {stop(); return;} if (step >= MAX) reset(); next(); timer = setInterval(next, 3600); $('bPlay').textContent = 'Pause';};
+        $('bStep').onclick = () => {stop(); next();};
+        $('bReset').onclick = reset;
+        $('bAll').onclick = () => {showAll = !showAll; $('bAll').textContent = showAll ? 'ซ่อนรายละเอียด' : 'แสดงรายละเอียดทั้งหมด'; $('bAll').setAttribute('aria-pressed', showAll); mark();};
+        document.querySelectorAll('.sh').forEach(b => b.onclick = () => jump(+b.dataset.s));
+        [['cMA', 'Enable Manual Align'], ['cABD', 'Align By Distance'], ['cLPU', 'Live Preview Update']].forEach(([id, n]) => $(id).onchange = () => {
+            render();
+            const z = apZ(), p = apP(); say([`${n} = ${$(id).checked ? 'on' : 'off'}`, 'กฎ: shift = EnableManualAlign && !AlignByDistance && (zoom || LivePreview)', `→ Zoom ${z ? 'เลื่อน' : 'ไม่เลื่อน'}, Preview ${p ? 'เลื่อน' : 'ไม่เลื่อน'} (anchors ${A.length} ตัวยังอยู่)`]);
+        });
+        reset();
+    })();
+</script>
